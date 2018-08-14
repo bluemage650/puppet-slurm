@@ -449,6 +449,12 @@ $common_rpms_basename = [
   'slurm-perlapi',   # Perl API to Slurm
   #'slurm-plugins',   # Slurm plugins (loadable shared objects)
 ]
+$slurmd_rpms_basename = [
+  'slurm-slurmd'
+]
+$slurmctld_rpms_basename = [
+  'slurm-slurmctld'
+]
 $slurmdbd_rpms_basename = [
   'slurm-slurmdbd',  # Slurm database daemon
   #  'slurm-sql',       # Slurm SQL support
