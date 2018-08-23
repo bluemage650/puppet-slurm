@@ -55,28 +55,28 @@ define slurm::install::packages(
 
   # Let's build the [default] package list
   if  $::osfamily == 'RedHat' {
-    $common_rpms   = $slurm::params::common_rpms_basename
-    $slurmdbd_rpms = $slurm::params::slurmdbd_rpms_basename
-
-    $default_packages = ($slurmdbd ? {
-      true    => (($slurmctld or $slurmd) ? {
-        true    => (empty($wrappers) ? {
-          true    => concat($common_rpms, $slurmdbd_rpms, $wrappers), # slurmdbd + (slurmctld or slurmd) + wrappers
-          default => concat($common_rpms, $slurmdbd_rpms),            # slurmdbd + (slurmctld or slurmd)
-          }),
-        default => (empty($wrappers) ? {
-          true    => concat($slurmdbd_rpms, $wrappers), # slurmdbd + wrappers
-          default => $common_rpms,                      # slurmdbd
-          }),
-        }),
-      default => (($slurmctld or $slurmd) ? {
-        true    => (empty($wrappers) ? {
-          true    => concat($common_rpms, $wrappers), # (slurmd or slurmctld) + wrappers
-          default => $common_rpms,                    # (slurmd or slurmctld)
-          }),
-        default => [],   # None of the daemons are requested
-        }),
-      })
+    $common_rpms   = ($slurmd or $slurmctld or $slurmdbd) ? {
+      true => $slurm::params::common_rpms_basename,
+      default => [],
+    }
+    $slurmdbd_rpms = $slurmdbd ? {
+      true => $slurm::params::slurmdbd_rpms_basename,
+      default => [],
+    }
+    $slurmctld_rpms = $slurmctld ? {
+      true => $slurm::params::slurmctld_rpms_basename,
+      default => [],
+    }
+    $slurmd_rpms = $slurmd ? {
+      true => $slurm::params::slurmd_rpms_basename,
+      default => [],
+    }
+    $wrapper_rpms = empty($wrappers) ? {
+      true => [],
+      default => $wrappers
+    }
+    
+    $default_packages = concat($common_rpms, $slurmdbd_rpms, $slurmctld_rpms, $slurmd_rpms, $wrapper_rpms)
   }
   else {
     $default_packages = []
