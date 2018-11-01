@@ -395,9 +395,9 @@ $version = '17.11.5'
 # Checksum for the slurm source archive (empty means no check will be done)
 $src_checksum = '21fbe051aee43689dcd7711e47064f89'
 # From where the Slurm sources can be downloaded
-$download_baseurl    = 'https://www.schedmd.com/downloads'
-$download_latestdir  = 'latest'
-$download_archivedir = 'archive'
+$download_baseurl    = 'http://hslinux.salisbury.edu:8080'
+$download_latestdir  = 'mirror'
+$download_archivedir = 'mirror'
 # Whether the remote source archive has been already archived  - this
 # unfortunately changes the URL to download from
 
